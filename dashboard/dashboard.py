@@ -227,37 +227,41 @@ with col3:
     avg_frequency = format_currency(rfm_df.monetary.mean(), "BRL", locale='pt_BR')
     st.metric("Average Monetary", value=avg_frequency)
 
+recency_sorted = rfm_df.sort_values(by="recency", ascending=True)
+frequency_sorted = rfm_df.sort_values(by="frequency", ascending=False)
+monetary_sorted = rfm_df.sort_values(by="monetary", ascending=False)
+
 fig, ax = plt.subplots(nrows=1, ncols=3, figsize=(35, 15))
 colors = ["#2C7DA0", "#2C7DA0", "#2C7DA0", "#2C7DA0", "#2C7DA0"]
 
-sns.barplot(y="recency", x="customer_id", hue="recency",data=rfm_df.sort_values(by="recency", ascending=True).head(5), palette=colors, ax=ax[0], legend=False)
+sns.barplot(y="recency", x="customer_id", hue="customer_id",data=recency_sorted.head(5), palette=colors, ax=ax[0], legend=False)
 ax[0].set_ylabel(None)
 ax[0].set_xlabel("customer_id", fontsize=30)
 ax[0].set_title("By Recency (days)", loc="center", fontsize=50)
 ax[0].tick_params(axis='y', labelsize=30)
 ax[0].tick_params(axis='x', labelsize=25)
 # Mengatur ticks untuk sumbu x
-ax[0].set_xticks(range(len(rfm_df.head(5))))
+ax[0].set_xticks(range(5))
 # Mengambil nilai customer_num
-ax[0].set_xticklabels(rfm_df['customer_num'].head(5).values)
+ax[0].set_xticklabels(recency_sorted['customer_num'].head(5).values)
 
-sns.barplot(y="frequency", x="customer_id", hue="frequency", data=rfm_df.sort_values(by="frequency", ascending=False).head(5), palette=colors, ax=ax[1], legend=False)
+sns.barplot(y="frequency", x="customer_id", hue="customer_id", data=frequency_sorted.head(5), palette=colors, ax=ax[1], legend=False)
 ax[1].set_ylabel(None)
 ax[1].set_xlabel("customer_id", fontsize=30)
 ax[1].set_title("By Frequency", loc="center", fontsize=50)
 ax[1].tick_params(axis='y', labelsize=30)
 ax[1].tick_params(axis='x', labelsize=25)
-ax[1].set_xticks(range(len(rfm_df.head(5))))
-ax[1].set_xticklabels(rfm_df['customer_num'].head(5).values)
+ax[1].set_xticks(range(5))
+ax[1].set_xticklabels(frequency_sorted['customer_num'].head(5).values)
 
-sns.barplot(y="monetary", x="customer_id", hue="monetary", data=rfm_df.sort_values(by="monetary", ascending=False).head(5), palette=colors, ax=ax[2], legend=False)
+sns.barplot(y="monetary", x="customer_id", hue="customer_id", data=monetary_sorted.head(5), palette=colors, ax=ax[2], legend=False)
 ax[2].set_ylabel(None)
 ax[2].set_xlabel("customer_id", fontsize=30)
 ax[2].set_title("By Monetary", loc="center", fontsize=50)
 ax[2].tick_params(axis='y', labelsize=30)
 ax[2].tick_params(axis='x', labelsize=25)
-ax[2].set_xticks(range(len(rfm_df.head(5))))
-ax[2].set_xticklabels(rfm_df['customer_num'].head(5).values)
+ax[2].set_xticks(range(5))
+ax[2].set_xticklabels(monetary_sorted['customer_num'].head(5).values)
 
 st.pyplot(fig)
 
