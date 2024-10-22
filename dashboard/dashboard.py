@@ -150,14 +150,14 @@ fig, ax = plt.subplots(nrows=1, ncols=2, figsize=(35, 15))
 
 colors = ["#2C7DA0", "#ADE8F4", "#ADE8F4", "#ADE8F4", "#ADE8F4", "#ADE8F4", "#ADE8F4", "#ADE8F4"]
 
-sns.barplot(x="order_id", y="product_category_name_english", data=sum_order_products_df.head(8), palette=colors, ax=ax[0])
+sns.barplot(x="order_id", y="product_category_name_english", hue="product_category_name_english", data=sum_order_products_df.head(8), palette=colors, ax=ax[0], legend=False)
 ax[0].set_ylabel(None)
 ax[0].set_xlabel("Number of Sales", fontsize=30)
 ax[0].set_title("Best Performing Product", loc="center", fontsize=50)
 ax[0].tick_params(axis='y', labelsize=35)
 ax[0].tick_params(axis='x', labelsize=30)
 
-sns.barplot(x="order_id", y="product_category_name_english", data=sum_order_products_df.sort_values(by="order_id", ascending=True).head(8), palette=colors, ax=ax[1])
+sns.barplot(x="order_id", y="product_category_name_english", hue="product_category_name_english", data=sum_order_products_df.sort_values(by="order_id", ascending=True).head(8), palette=colors, ax=ax[1], legend=False)
 ax[1].set_ylabel(None)
 ax[1].set_xlabel("Number of Sales", fontsize=30)
 ax[1].invert_xaxis()
@@ -172,11 +172,12 @@ st.pyplot(fig)
 #Informasi berikutnya yang ingin ditampilkan pada dashboard ialah terkait demografi pelanggan yang kita miliki.
 st.subheader("Customer Demographics")
 
-colors = ["#2C7DA0"]
+colors = ["#2C7DA0"] * 27
 fig, ax = plt.subplots(figsize=(20, 10))
 sns.barplot(
     x="customer_count",
     y="customer_state",
+    hue="customer_state",
     data=cust_bystate_df.sort_values(by="customer_count", ascending=False),
     palette=colors,
     ax=ax
@@ -192,11 +193,12 @@ st.pyplot(fig)
 #Informasi berikutnya yang ingin ditampilkan pada dashboard ialah demografi penjual yang kita miliki.
 st.subheader("Seller Demographics")
 
-colors = ["#ADE8F4"]
+colors = ["#ADE8F4"] * 23
 fig, ax = plt.subplots(figsize=(20, 10))
 sns.barplot(
     x="seller_count",
     y="seller_state",
+    hue="seller_state",
     data=seller_bystate_df.sort_values(by="seller_count", ascending=False),
     palette=colors,
     ax=ax
